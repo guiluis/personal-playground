@@ -140,3 +140,4 @@ vite.config.ts.timestamp-*
 
 .next
 node_modules
+.claude/
