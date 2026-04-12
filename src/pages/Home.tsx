@@ -1,59 +1,56 @@
+import { lazy, Suspense } from 'react'
+import { playgroundEntries } from '@/lib/discover'
+
+const lazyComponents = playgroundEntries.map(entry => lazy(entry.load))
+
 export default function Home() {
   return (
-    <div className="max-w-[640px] mt-10 ml-10">
-      <h1
-        className="text-2xl font-semibold mb-3"
-        style={{ color: 'var(--color-text)' }}
-      >
-        Component Playground
-      </h1>
-      <p className="text-[15px] leading-relaxed mb-8" style={{ color: 'var(--color-muted)' }}>
-        Select a component from the sidebar to preview it, or create a new one to get started.
-      </p>
-
-      <div
-        className="rounded-[8px] border p-6"
-        style={{ borderColor: 'var(--color-border)' }}
-      >
-        <p
-          className="text-[11px] font-semibold uppercase tracking-widest mb-4"
+    <div className="max-w-[400px] mx-auto px-6 py-16 flex flex-col gap-10">
+      {/* Page header */}
+      <div className="flex flex-col gap-2">
+        <a
+          href="https://glhrm.me"
+          className="text-[11px] font-semibold tracking-widest uppercase mb-4 select-none inline-block"
           style={{ color: 'var(--color-muted)', opacity: 0.5 }}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          Adding a component
-        </p>
-        <ol className="space-y-3">
-          {[
-            ['Create a folder', 'src/components/MyComponent/'],
-            ['Build the component', 'src/components/MyComponent/MyComponent.tsx'],
-            ['Add the demo', 'src/components/MyComponent/playground.tsx'],
-          ].map(([step, path]) => (
-            <li key={step} className="flex items-start gap-3 text-[14px]">
-              <span
-                className="shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-semibold mt-px"
-                style={{ background: 'var(--color-accent)', color: '#fff' }}
-              >
-                {['1', '2', '3'][['Create a folder', 'Build the component', 'Add the demo'].indexOf(step)]}
-              </span>
-              <span style={{ color: 'var(--color-muted)' }}>
-                {step} —{' '}
-                <code
-                  className="text-[13px] px-1 py-px rounded"
-                  style={{
-                    fontFamily: 'var(--font-mono)',
-                    background: 'var(--color-border)',
-                    color: 'var(--color-text)',
-                  }}
-                >
-                  {path}
-                </code>
-              </span>
-            </li>
-          ))}
-        </ol>
-        <p className="mt-5 text-[13px]" style={{ color: 'var(--color-muted)', opacity: 0.6 }}>
-          The component will appear in the sidebar automatically — no registration needed.
+          [ Back to glhrm.me ]
+        </a>
+        <h1 className="text-[15px] font-medium" style={{ color: 'var(--color-text)' }}>
+          Design Playground
+        </h1>
+        <p className="text-[13px] leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+          A place to create, iterate and test ideas
         </p>
       </div>
+
+      {/* Component feed */}
+      {playgroundEntries.map((entry, i) => {
+        const Component = lazyComponents[i]
+        return (
+          <div key={entry.slug} className="flex flex-col gap-3">
+            <div className="flex flex-col gap-1">
+              <h2 className="text-[14px] font-medium" style={{ color: 'var(--color-text)' }}>
+                {entry.label}
+              </h2>
+              {entry.description && (
+                <p className="text-[13px] leading-relaxed" style={{ color: 'var(--color-muted)' }}>
+                  {entry.description}
+                </p>
+              )}
+            </div>
+            <div
+              className="rounded-3xl overflow-hidden"
+              style={{ background: '#F6F6F6', height: 320 }}
+            >
+              <Suspense fallback={null}>
+                <Component />
+              </Suspense>
+            </div>
+          </div>
+        )
+      })}
     </div>
   )
 }

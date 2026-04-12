@@ -52,11 +52,11 @@ export default function Resize() {
   }, [rawLeft]);
 
   return (
-    <div className="flex items-center justify-center w-full h-full min-h-screen bg-white">
+    <div className="flex items-center justify-center w-full h-full">
       <div
         ref={containerRef}
         className="relative flex select-none"
-        style={{ height: 400 }}
+        style={{ height: 200 }}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={() => {
@@ -66,13 +66,13 @@ export default function Resize() {
       >
         {/* Left rectangle */}
         <motion.div
-          className="rounded-2xl bg-gray-100 flex-shrink-0"
-          style={{ width: leftWidth, height: 300 }}
+          className="rounded-2xl bg-gray-200 flex-shrink-0"
+          style={{ width: leftWidth, height: 200 }}
         />
 
         {/* Divider + bubble */}
         <div
-          className="relative flex items-center justify-center flex-shrink-0 cursor-col-resize"
+          className="relative flex items-center justify-center flex-shrink-0 cursor-col-resize h-50"
           style={{ width: DIVIDER, zIndex: 10 }}
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => !isDragging && setIsHovering(false)}
@@ -96,8 +96,8 @@ export default function Resize() {
 
         {/* Right rectangle */}
         <motion.div
-          className="rounded-2xl bg-gray-100 flex-shrink-0"
-          style={{ width: rightWidth, height: 300 }}
+          className="rounded-2xl bg-gray-200 flex-shrink-0"
+          style={{ width: rightWidth, height: 200 }}
         />
       </div>
     </div>
